@@ -63,8 +63,32 @@ public class Game extends MouseAdapter implements GLEventListener, KeyListener {
 
         gl.glColor3f(0.0f, 0.0f, 1.0f);
 
-        glut.glutWireTeapot(35);
+   //     glut.glutWireTeapot(35);
 
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        // clear the drawing buffer.
+        gl.glClear(GL_COLOR_BUFFER_BIT);
+        // clear the identity matrix.
+        gl.glLoadIdentity();
+        // traslate the draw by z = -4.0
+        // Note this when you decrease z like -8.0 the drawing will looks far , or smaller.
+        gl.glTranslatef(-1.5f,0.0f,-4.5f);
+        // Red color used to draw.
+        gl.glColor3f(0.8f, 0.2f, 0.1f);
+        // changing in transformation matrix.
+        // rotation about X axis
+        gl.glRotatef(30.0f,1.0f,0.0f,0.0f);
+        // rotation about Y axis
+        gl.glRotatef(30.0f,0.0f,1.0f,0.0f);
+        // rotation about Z axis
+        gl.glRotatef(30.0f,0.0f,0.0f,1.0f);
+        // scaling transfomation
+        gl.glScalef(1.0f,1.0f,1.0f);
+        // built-in (glut library) function , draw you a Teapot.
+        glut.glutSolidSphere(1, 8,8);
+        // Flush buffers to screen
+
+        gl.glFlush();
     }
 
     public void especificaParametrosVisualizacao()

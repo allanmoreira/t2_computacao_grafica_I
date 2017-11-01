@@ -53,6 +53,5 @@
       </library>
     </orderEntry>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" name="gluegen-rt-natives-linux-amd64" level="project" />
   </component>
 </module>

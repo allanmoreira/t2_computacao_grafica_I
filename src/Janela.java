@@ -18,7 +18,7 @@ public class Janela
 	{
 		// Cria janela
 		JFrame janela = new JFrame("Desenho de um teapot 3D");   
-		janela.setBounds(50,100,500,500); 
+		janela.setSize(1366,768);
 		janela.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		BorderLayout layout = new BorderLayout(); 
