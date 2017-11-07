@@ -44,7 +44,7 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
 
     private float rotX = 1;
     private float rotY = 0;
-    private float rotX_ini, rotY_ini, obsX_ini, obsY_ini, obsZ_ini;
+    private float posX, posY;
 
     public Desenho(ArrayList<Pessoa> listaPessoas, int qtdesFrames, int pixelsPorMetro, JFrame janela) {
         this.janela = janela;
@@ -112,7 +112,6 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         especificaParametrosVisualizacao();
 
-        gl.glColor3f(0.0f, 0.0f, 1.0f);
 
         listaCoordenadasFrame = new ArrayList<>();
 //
@@ -130,20 +129,23 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
                 gl.glPushMatrix();
                 gl.glTranslatef(coordenada.getX(),10,coordenada.getY());
 
-                glut.glutWireTeapot(35);
-
+                if (i%2==0){
+                    gl.glColor3f(0.0f, 0.0f, 1.0f);
+                    glut.glutSolidCube(35);
+                } else {
+                    gl.glColor3f(0.0f, 1.0f, 0.0f);
+                    glut.glutSolidTeapot(20);
+                }
+                
                 gl.glPopMatrix();
-
-//                gl.glBegin( GL.GL_LINE_LOOP );
-////                gl.glColor3f(1.0f, 0.7f, 0.0f);
-//                gl.glVertex2f(coordenada.getX()-proporcao-1, altura -(coordenada.getY()-proporcao));
-//                gl.glVertex2f(coordenada.getX()-proporcao-1, altura -(coordenada.getY()+proporcao));
-//                gl.glVertex2f(coordenada.getX()+proporcao-1, altura -(coordenada.getY()+proporcao));
-//                gl.glVertex2f(coordenada.getX()+proporcao-1, altura -(coordenada.getY()-proporcao));
-//                gl.glEnd();
-
             }
         }
+
+        gl.glPushMatrix();
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        gl.glTranslatef(posX,1, posY);
+        glut.glutSolidTorus(20, 5, 20, 20);
+        gl.glPopMatrix();
 
         desenhaChao();
         gl.glFlush();
@@ -155,9 +157,6 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
 //        System.out.println("Qtde loops: " + contLoopDisplay++);
         tempoAtual++;
 
-        System.out.println(tempoAtual);
-        System.out.println(qtdesFrames);
-        System.out.println("-----------------");
 
         if(tempoAtual-1 == qtdesFrames) {
             new Eventos(matrizPessoasPorFrame, pixelsPorMetro);
@@ -244,10 +243,16 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
             case KeyEvent.VK_DOWN: obsY -=10;
                 break;
 
-            case KeyEvent.VK_HOME: obsZ +=10;
+            case KeyEvent.VK_A: posY +=10;
                 break;
 
-            case KeyEvent.VK_END: obsZ -=1;
+            case KeyEvent.VK_D: posY -=10;
+                break;
+
+            case KeyEvent.VK_W: posX -=10;
+                break;
+
+            case KeyEvent.VK_S: posX +=10;
                 break;
         }
         glDrawable.display();
