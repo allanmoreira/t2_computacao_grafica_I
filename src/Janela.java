@@ -20,7 +20,7 @@ public class Janela
 	public Janela()
 	{
 		// Cria janela
-		JFrame janela = new JFrame("Desenho de um teapot 3D");   
+		JFrame janela = new JFrame("Jogo da Colisão");
 		janela.setSize(1366,768);
 		janela.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -51,11 +51,8 @@ public class Janela
 
 	}
 
-	/**
-	 * M�todo main que apenas cria um objeto ExemploJava.
-	 */
 	public static void main(String args[]) {
-		leituraArquivo = new LeituraArquivo(ArquivosDataSet.FRANCA_FR01);
+		leituraArquivo = new LeituraArquivo(ArquivosDataSet.CHINA_CN01);
 //        LeituraArquivo leituraArquivo = new LeituraArquivo(ArquivosDataSet.TURQUIA_TR01);
 		listaPessoas = leituraArquivo.ler();
 

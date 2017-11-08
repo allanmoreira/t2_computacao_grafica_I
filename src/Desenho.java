@@ -11,7 +11,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.gl2.GLUT;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -45,9 +45,13 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
     private float rotX = 1;
     private float rotY = 0;
     private float posX, posY;
+    private boolean colisao;
+    private int contColisoes;
 
     public Desenho(ArrayList<Pessoa> listaPessoas, int qtdesFrames, int pixelsPorMetro, JFrame janela) {
         this.janela = janela;
+
+        JOptionPane.showMessageDialog(janela, "Bem-vindo ao jogo da colisão!");
 
         GLProfile profile = GLProfile.getDefault();
         GLCapabilities capabilities = new GLCapabilities(profile);
@@ -74,7 +78,6 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
                     @Override
                     public void run() {
                         animator.stop(); // stop the animator loop
-                        System.exit(0);
                     }
                 }.start();
             };
@@ -90,6 +93,7 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
         angle=88;
         // Inicializa o valor para corre��o de aspecto
         fAspect = 1;
+        colisao = false;
     }
     
     @Override
@@ -105,13 +109,28 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
     }
 
     @Override
-    public void dispose(GLAutoDrawable drawable) {}
+    public void dispose(GLAutoDrawable drawable) {
+        JFrame janelaFinal = new JFrame("Jogo da Colisão");
+        if(contColisoes > 0){
+            JOptionPane.showMessageDialog(janelaFinal,
+                    "PARABÉNS, VOCÊ GANHOU!!!!!!!!!!!!!"
+            );
+        } else {
+            JOptionPane.showMessageDialog(janelaFinal,
+                    "VOCÊ PERDEU :( :( :( \n Você colidiu \" + contColisoes + \" vezes"
+            );
+        }
+    }
 
     @Override
     public void display(GLAutoDrawable drawable) {
         gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
         especificaParametrosVisualizacao();
 
+        if(colisao)
+            gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        else
+            gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         listaCoordenadasFrame = new ArrayList<>();
 //
@@ -134,7 +153,7 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
                     glut.glutSolidCube(20);
                 } else {
                     gl.glColor3f(0.0f, 1.0f, 0.0f);
-                    glut.glutSolidTeapot(20);
+                    glut.glutSolidCylinder(20, 5, 20, 20);
                 }
                 
                 gl.glPopMatrix();
@@ -143,7 +162,7 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
 
         gl.glPushMatrix();
         gl.glColor3f(1.0f, 0.0f, 0.0f);
-        gl.glTranslatef(posX,1, posY);
+        gl.glTranslatef(posX,20, posY);
         glut.glutSolidTorus(20, 5, 20, 20);
         gl.glPopMatrix();
 
@@ -160,8 +179,8 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
 
         if(tempoAtual-1 == qtdesFrames) {
             new Eventos(matrizPessoasPorFrame, pixelsPorMetro);
-            System.exit(0);
             janela.dispose();
+            System.exit(0);
         }
 
 
@@ -206,13 +225,13 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
         gl.glBegin(GL.GL_LINES);
         for(float z=-1000; z<=1000; z+=10)
         {
-            gl.glVertex3f(-1000,-0.1f,z);
-            gl.glVertex3f( 1000,-0.1f,z);
+            gl.glVertex3f(-1000,-5f,z);
+            gl.glVertex3f( 1000,-5f,z);
         }
         for(float x=-1000; x<=1000; x+=10)
         {
-            gl.glVertex3f(x,-0.1f,-1000);
-            gl.glVertex3f(x,-0.1f,1000);
+            gl.glVertex3f(x,-5f,-1000);
+            gl.glVertex3f(x,-5f,1000);
         }
         gl.glEnd();
         gl.glLineWidth(1);
@@ -237,10 +256,10 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
             case KeyEvent.VK_RIGHT: obsX +=10;
                 break;
 
-            case KeyEvent.VK_UP: obsY +=10;
+            case KeyEvent.VK_UP: obsY -=10;
                 break;
 
-            case KeyEvent.VK_DOWN: obsY -=10;
+            case KeyEvent.VK_DOWN: obsY +=10;
                 break;
 
             case KeyEvent.VK_A:
@@ -276,9 +295,13 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
             distancia = Math.sqrt(
                     Math.pow((coordenada.getX() - posX), 2) +
                             Math.pow((coordenada.getY() - posY),2));
-            if(distancia <= 40)
+            if(distancia <= 60) {
+                contColisoes++;
+                colisao = true;
                 return false;
+            }
         }
+        colisao = false;
         return true;
     }
 
