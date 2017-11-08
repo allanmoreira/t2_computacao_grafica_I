@@ -52,7 +52,7 @@ public class Janela
 	}
 
 	public static void main(String args[]) {
-		leituraArquivo = new LeituraArquivo(ArquivosDataSet.CHINA_CN01);
+		leituraArquivo = new LeituraArquivo(ArquivosDataSet.BRASIL_BR01);
 //        LeituraArquivo leituraArquivo = new LeituraArquivo(ArquivosDataSet.TURQUIA_TR01);
 		listaPessoas = leituraArquivo.ler();
 

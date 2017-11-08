@@ -117,7 +117,7 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
             );
         } else {
             JOptionPane.showMessageDialog(janelaFinal,
-                    "VOCÊ PERDEU :( :( :( \n Você colidiu \" + contColisoes + \" vezes"
+                    "VOCÊ PERDEU :( :( :( \n Você colidiu " + contColisoes + " vezes"
             );
         }
     }
@@ -298,6 +298,10 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
             if(distancia <= 60) {
                 contColisoes++;
                 colisao = true;
+                JOptionPane.showMessageDialog(janela,
+                        "VOCÊ PERDEU :( :( :( \n Você colidiu " + contColisoes + " vezes"
+                );
+                System.exit(0);
                 return false;
             }
         }
