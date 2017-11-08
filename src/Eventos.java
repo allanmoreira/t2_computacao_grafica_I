@@ -30,18 +30,18 @@ public class Eventos {
             for (int i = 0; i < listaCoordenadasFrame.size() - 1; i++) {
                 for (int j = i + 1; j < listaCoordenadasFrame.size(); j++) {
                     if (i != j) {
-                        calculaEspacoPessoal(listaCoordenadasFrame.get(i), listaCoordenadasFrame.get(j));
+//                        calculaEspacoPessoal(listaCoordenadasFrame.get(i), listaCoordenadasFrame.get(j));
                     }
                 }
             }
-            System.out.println();
-            System.out.println("Frame " + ++cont);
-            System.out.println("Eventos de espaço íntimo: " + qtdeEspacoIntimo);
-            System.out.println("Eventos de espaço pessoal: " + getQtdeEspacoPessoal);
-            System.out.println("Eventos de espaço social: " + getQtdeEspacoSocial);
-            System.out.println("Eventos de espaço público: " + getQtdeEspacoPublico);
+//            System.out.println();
+//            System.out.println("Frame " + ++cont);
+//            System.out.println("Eventos de espaço íntimo: " + qtdeEspacoIntimo);
+//            System.out.println("Eventos de espaço pessoal: " + getQtdeEspacoPessoal);
+//            System.out.println("Eventos de espaço social: " + getQtdeEspacoSocial);
+//            System.out.println("Eventos de espaço público: " + getQtdeEspacoPublico);
         }
-        imprime();
+//        imprime();
     }
 
     private void calculaEspacoPessoal(Coordenada b1, Coordenada b2){

@@ -131,7 +131,7 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
 
                 if (i%2==0){
                     gl.glColor3f(0.0f, 0.0f, 1.0f);
-                    glut.glutSolidCube(35);
+                    glut.glutSolidCube(20);
                 } else {
                     gl.glColor3f(0.0f, 1.0f, 0.0f);
                     glut.glutSolidTeapot(20);
@@ -243,16 +243,24 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
             case KeyEvent.VK_DOWN: obsY -=10;
                 break;
 
-            case KeyEvent.VK_A: posY +=10;
+            case KeyEvent.VK_A:
+                if (distanciaTorusCoordenadas())
+                    posY +=10;
                 break;
 
-            case KeyEvent.VK_D: posY -=10;
+            case KeyEvent.VK_D:
+                if (distanciaTorusCoordenadas())
+                    posY -=10;
                 break;
 
-            case KeyEvent.VK_W: posX -=10;
+            case KeyEvent.VK_W:
+                if (distanciaTorusCoordenadas())
+                    posX -=10;
                 break;
 
-            case KeyEvent.VK_S: posX +=10;
+            case KeyEvent.VK_S:
+                if (distanciaTorusCoordenadas())
+                    posX +=10;
                 break;
         }
         glDrawable.display();
@@ -261,6 +269,18 @@ public class Desenho extends MouseAdapter implements GLEventListener, KeyListene
     public void keyReleased(KeyEvent e) { }
 
     public void keyTyped(KeyEvent e) { }
+
+    private boolean distanciaTorusCoordenadas(){
+        double distancia;
+        for (Coordenada coordenada : listaCoordenadasFrame) {
+            distancia = Math.sqrt(
+                    Math.pow((coordenada.getX() - posX), 2) +
+                            Math.pow((coordenada.getY() - posY),2));
+            if(distancia <= 40)
+                return false;
+        }
+        return true;
+    }
 
     public void play() {}
 
